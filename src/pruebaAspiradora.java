@@ -6,6 +6,11 @@ public class pruebaAspiradora {
 	
     public static void main(String args[]) throws IOException 
     { 
+    	//CASO 1 muevo aspiradora sobre ambiente limpio
+    	//Cuando la aspiradora se mueve, cambia de zona
+    	casoMoverAspiradora();
+    }
+    private static void casoMoverAspiradora() {
     	Ambiente cocina;
     	Zona	 zona1 = new Zona();
     	Zona	 zona2 = new Zona();
@@ -32,6 +37,7 @@ public class pruebaAspiradora {
     	cocina.agregarZona(zona2);
     	cocina.agregarZona(zona3);
     	cocina.agregarZona(zona4);
+    	
     	cocina.agregarZona(zona4);
     	
     	//Se agrega aspiradora en la posicion 0 0
@@ -39,10 +45,12 @@ public class pruebaAspiradora {
     	
     	
     	//Muevo aspiradora hacia la derecha
-    	
-    	//CASO 1 muevo aspiradora sobre ambiente limpio
-    	//Cuando la aspiradora se mueve, cambia de zona
-    	//aspiradora.mover("DERECHA");
+  
+    	aspiradora.mover("DERECHA");
+    	aspiradora.mover("ABAJO");
+    	aspiradora.mover("IZQUIERDA");
+    	aspiradora.mover("ARRIBA");
+    	aspiradora.mover("IZQUIERDA"); //Se excedio de los limites
     }
 }
 

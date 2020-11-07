@@ -1,8 +1,13 @@
 
 public class Zona {
+	int fila;
+	int columna;
+	Ambiente ambiente;
 	boolean zonaLimpia;
 	boolean zonaConObstaculo;
 	
+
+
 	@Override
 	public String toString() {
 		return "soy_una_Zona";
@@ -28,5 +33,27 @@ public class Zona {
 		return this.zonaConObstaculo;
 	}
 	
+	public void setFila(int fila) {
+		this.fila = fila;
+	}
 
+	public void setColumna(int columna) {
+		this.columna = columna;
+	}
+
+	public int getFila() {
+		return this.fila;
+	}
+
+	public int getColumna() {
+		return this.columna;
+	}
+
+	public Ambiente getAmbiente() {
+		return this.ambiente;
+	}
+
+	public void setAmbiente(Ambiente ambiente) {
+		this.ambiente = ambiente;
+	}
 }
