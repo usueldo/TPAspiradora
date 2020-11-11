@@ -50,6 +50,9 @@ public class Ambiente {
 		//Se posiciona la aspiradora en posicion 0 0
 		aspiradora.setZona(zonaInicial);
 		
+		//Se limpia zona inicial
+		aspiradora.limpiarZona();
+		
 		this.aspiradora  = aspiradora;
 	}
 	public int getAncho() {
