@@ -4,7 +4,7 @@ public class Aspiradora {
 	Cepillo cepilloDerecho;
 	String modoVelocidad;
 	boolean encendido = false;
-	int porcentajeBateria = 2;
+	int porcentajeBateria = 100;
 
 	public Aspiradora(Cepillo cepilloIzquierdo, Cepillo cepilloDerecho) {
 		super();
@@ -13,69 +13,113 @@ public class Aspiradora {
 	}
 
 	public void mover(String direccion) {
-		Ambiente ambiente = zona.getAmbiente();
-		int fila = zona.getFila();
-		int columna = zona.getColumna();
-		int limiteFila = ambiente.getAncho();
-		int limiteColumna = ambiente.getAlto();
-		Zona nuevaZona;
+		Zona zonaActual = this.zona;
+		int fila = zonaActual.getFila();
+		int columna = zonaActual.getColumna();
+		Zona zonaNueva;
 
 		// Se comprueba si esta encendida
 		if (this.encendido) {
 
-			// Si la ubicacion no es inicial, se modifican limites
-			if (limiteFila != 0) {
-				limiteFila = limiteFila - 1;
-			}
-
-			if (limiteColumna != 0) {
-				limiteColumna = limiteColumna - 1;
-			}
-
 			switch (direccion) {
 			case "ARRIBA":
-				fila = fila - 1;
+				fila -= 1;
 				break;
 			case "ABAJO":
-				fila = fila + 1;
+				fila += 1;
 				break;
 			case "DERECHA":
-				columna = columna + 1;
+				columna += 1;
 				break;
 			case "IZQUIERDA":
-				columna = columna - 1;
+				columna -= 1;
 				break;
 			default:
 				// Declaraciones
 			}
 
-			// Se comprueba que la aspiradora no se exceda de los limites
-			if (fila <= limiteFila && fila >= 0 && columna <= limiteColumna && columna >= 0) {
-				// Se obtiene nueva zona
-				nuevaZona = ambiente.getZona(fila, columna);
-				
-				if(nuevaZona.tieneObstaculo()) {
-					//Logica para mover a otra zona
-					
-				}else {
-					// Se carga nueva zona
-					this.zona = nuevaZona;
+			// Obtengo nueva zona, si, la zona que devuelve es la misma,
+			// quiere decir que la aspiradora no se pudo mover
+			zonaNueva = this.obtenerNuevaZona(fila, columna);
 
-					this.limpiarZona();
-					System.out.print("Se movio aspiradora columna " + Integer.toString(columna) + " y fila "
-							+ Integer.toString(fila) + "\n");
+			// Compruebo si la aspiradora se movio de zona
+			if (zonaNueva == zonaActual) {
 
-					// Se diminuye la bateria
-					this.gastarBateria();			
+				// Se reinicia ubicacion
+				fila = zonaActual.getFila();
+				columna = zonaActual.getColumna();
+
+				// Mover hacia arriba
+				fila -= 1;
+
+				// Obtengo nueva zona
+				zonaNueva = this.obtenerNuevaZona(fila, columna);
+				// Compruebo si la aspiradora se movio de zona
+				if (zonaNueva == zonaActual) {
+					// La aspiradora no se movio de zona
+
+					// Se reinicia ubicacion
+					fila = zonaActual.getFila();
+					columna = zonaActual.getColumna();
+
+					// Mover hacia abajo
+					fila += 1;
+
+					// Obtengo nueva zona
+					zonaNueva = this.obtenerNuevaZona(fila, columna);
 				}
+			}
 
-
+			// Compruebo si la aspiradora se movio de zona
+			if (zonaNueva == zonaActual) {
+				// Se apaga aspiradora si no pudo mover hacia arriba ni hacia abajo
+				this.apagar();
 			} else {
-				System.out.print("Se excedio de los limites !\n");
+				// La aspiradora se pudo mover exitosamente
+				// Se limpia la zona
+				this.limpiarZona();
+
+				// Se diminuye la bateria
+				this.gastarBateria();
+
+				// Se asigna nueva zona a la aspiradora
+				this.setZona(zonaNueva);
+				System.out.print("Se movio aspiradora columna " + Integer.toString(columna) + " y fila "
+						+ Integer.toString(fila) + "\n");
 			}
 		} else {
 			System.out.print("La aspiradora esta apagada!\n");
 		}
+	}
+
+	private Zona obtenerNuevaZona(int fila, int columna) {
+		Ambiente ambiente = zona.getAmbiente();
+		int limiteFila = ambiente.getAncho();
+		int limiteColumna = ambiente.getAlto();
+		Zona nuevaZona = this.zona;
+		Zona zonaTemporal;
+
+		// Si la ubicacion no es inicial, se modifican limites
+		if (limiteFila != 0) {
+			limiteFila = limiteFila - 1;
+		}
+
+		if (limiteColumna != 0) {
+			limiteColumna = limiteColumna - 1;
+		}
+
+		// Se comprueba que la aspiradora no se exceda de los limites
+		if (fila <= limiteFila && fila >= 0 && columna <= limiteColumna && columna >= 0) {
+			// Se obtiene nueva zona
+			zonaTemporal = ambiente.getZona(fila, columna);
+			// Si la zona obtenida no tiene obstaculo, entonces se carga la nueva zona
+			if (!zonaTemporal.tieneObstaculo()) {
+				// Se carga la nueva zona
+				nuevaZona = zonaTemporal;
+			}
+		}
+
+		return nuevaZona;
 	}
 
 	public void setZona(Zona zona) {
@@ -104,11 +148,14 @@ public class Aspiradora {
 	}
 
 	public void encender() {
-		//Se comprueba si la aspiradora tiene bateria
+		// Se comprueba si la aspiradora tiene bateria
 		if (this.porcentajeBateria > 0) {
-			//Se enciende aspiradora
+			// Se enciende aspiradora
 			this.encendido = true;
-		}else {
+			
+			//Se limpia zona inicial
+			this.limpiarZona();
+		} else {
 			System.out.print("La aspiradora no esta cargada!\n");
 		}
 	}
