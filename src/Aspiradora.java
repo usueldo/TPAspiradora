@@ -173,4 +173,13 @@ public class Aspiradora {
 			this.apagar();
 		}
 	}
+	// cargar manualmente
+	public void cargarBateria() {
+		if (this.porcentajeBateria == 0) {
+			// Se carga
+			this.porcentajeBateria=100;
+		}/*else {
+			System.out.print("Todavia tiene bateria!\n");
+		}*/
+	}
 }
