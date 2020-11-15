@@ -10,7 +10,7 @@ public class Zona {
 
 	@Override
 	public String toString() {
-		return "soy_una_Zona";
+		return "Zona";
 	}
 	
 	public void limpiar(){

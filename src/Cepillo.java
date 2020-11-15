@@ -5,7 +5,7 @@ public class Cepillo {
 	
 	public boolean estaSucio() {
 		boolean estado=false;
-		if (cantidadDeBarridos==20){
+		if (cantidadDeBarridos==5){
 			
 			estado=true;
 		}

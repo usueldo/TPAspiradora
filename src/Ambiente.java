@@ -64,6 +64,20 @@ public class Ambiente {
 		return this.zonas[fila][columna];
 	}
 
+	public boolean estaLimpio() {
+		boolean ambienteLimpio = true;
+		//Se recorre cada zona y se pregunta si esta limpia
+		for (int i = 0; i < zonas.length && ambienteLimpio; i++) {
 
+			//Se recorre linea de la matriz
+			for (int j = 0; j < zonas[i].length && ambienteLimpio; j++) {
+				// Se comprueba si la zona no esta limpia
+				if (!zonas[i][j].estaLimpia()) {
+					ambienteLimpio = false;
+				}
+			}
+		}
+		return ambienteLimpio;
+	}
 	
 }

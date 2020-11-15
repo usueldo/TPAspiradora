@@ -11,7 +11,6 @@ public class Aspiradora {
 		this.cepilloIzquierdo = cepilloIzquierdo;
 		this.cepilloDerecho = cepilloDerecho;
 	}
-	
 
 	public void mover(String direccion) {
 		Zona zonaActual = this.zona;
@@ -77,16 +76,23 @@ public class Aspiradora {
 				this.apagar();
 			} else {
 				// La aspiradora se pudo mover exitosamente
-				// Se limpia la zona
-				this.limpiarZona();
 
 				// Se diminuye la bateria
 				this.gastarBateria();
 
 				// Se asigna nueva zona a la aspiradora
 				this.setZona(zonaNueva);
-				System.out.print("Se movio aspiradora columna " + Integer.toString(columna) + " y fila "
-						+ Integer.toString(fila) + "\n");
+				System.out.print("Se movio aspiradora columna " + columna + " y fila "
+						+ fila + "\n");
+
+				// Se limpia la zona
+				this.limpiarZona();
+
+				if (this.ambienteEstaLimpio()) {
+					// Se apaga aspiradora si el ambiente esta limpio
+					this.apagar();
+				}
+
 			}
 		} else {
 			System.out.print("La aspiradora esta apagada!\n");
@@ -128,21 +134,22 @@ public class Aspiradora {
 	}
 
 	public void limpiarZona() {
-		if (this.cepilloDerecho.estaSucio || this.cepilloIzquierdo.estaSucio()) {
-			System.out.print("El cepillo esta sucio hay que limpiarlo\n"); 
-	    
+		if (this.cepilloDerecho.estaSucio() || this.cepilloIzquierdo.estaSucio()) {
+			System.out.print("El cepillo esta sucio hay que limpiarlo\n");
+
 			this.apagar();
-			}
-		else {
-		// Limpio zona con cada cepillo
-		this.cepilloDerecho.limpiarZona(this.zona);
-		
-		this.cepilloIzquierdo.limpiarZona(this.zona);
-		
-		/*
-		 * if(zona.estaLimpia()) { System.out.print("Se limpio zona\n"); }
-		 */
+		} else {
+			// Limpio zona con cada cepillo
+			this.cepilloDerecho.limpiarZona(this.zona);
+
+			this.cepilloIzquierdo.limpiarZona(this.zona);
+
+			/*
+			 * if(zona.estaLimpia()) { System.out.print("Se limpio zona\n"); }
+			 */
 		}
+		//System.out.print("Barridos Cepillo Derecho: " + cepilloDerecho.cantidadDeBarridos + "\n");
+		//System.out.print("Barridos Cepillo Izquierdo: " + cepilloDerecho.cantidadDeBarridos + "\n");
 	}
 
 	public void cambiarModoVelocidad(String modoVelocidad) {
@@ -156,11 +163,16 @@ public class Aspiradora {
 	public void encender() {
 		// Se comprueba si la aspiradora tiene bateria
 		if (this.porcentajeBateria > 0) {
-			// Se enciende aspiradora
-			this.encendido = true;
-			
-			//Se limpia zona inicial
-			this.limpiarZona();
+			if(this.cepilloDerecho.estaSucio() || this.cepilloIzquierdo.estaSucio()) {
+				System.out.print("La aspiradora tiene cepillos sucios!\n");
+			}else {
+				// Se enciende aspiradora
+				this.encendido = true;
+
+				// Se limpia zona inicial
+				this.limpiarZona();
+			}
+
 		} else {
 			System.out.print("La aspiradora no esta cargada!\n");
 		}
@@ -179,13 +191,25 @@ public class Aspiradora {
 			this.apagar();
 		}
 	}
+
 	// cargar manualmente
 	public void cargarBateria() {
 		if (this.porcentajeBateria == 0) {
 			// Se carga
-			this.porcentajeBateria=100;
-		}/*else {
-			System.out.print("Todavia tiene bateria!\n");
-		}*/
+			this.porcentajeBateria = 100;
+		} /*
+			 * else { System.out.print("Todavia tiene bateria!\n"); }
+			 */
 	}
+
+	private boolean ambienteEstaLimpio() {
+		Ambiente ambiente = zona.getAmbiente();
+		return ambiente.estaLimpio();
+	}
+	
+	public void limpiarCepillosManualmente() {
+		this.cepilloDerecho.limpiarManualmente();
+		this.cepilloIzquierdo.limpiarManualmente();
+	}
+
 }
