@@ -12,9 +12,6 @@ public class Aspiradora {
 		this.cepilloDerecho = cepilloDerecho;
 	}
 	
-	public void cambiarModo(String nuevoModo) {
-		this.modoVelocidad=nuevoModo;
-	}
 
 	public void mover(String direccion) {
 		Zona zonaActual = this.zona;
@@ -134,9 +131,9 @@ public class Aspiradora {
 
 		// Limpio zona con cada cepillo
 		this.cepilloDerecho.limpiarZona(this.zona);
-
+		
 		this.cepilloIzquierdo.limpiarZona(this.zona);
-
+		
 		/*
 		 * if(zona.estaLimpia()) { System.out.print("Se limpio zona\n"); }
 		 */

@@ -59,7 +59,7 @@ public class pruebaAspiradora {
     	aspiradora.encender();
     	//Muevo aspiradora hacia la derecha
     	aspiradora.mover("DERECHA");
-    	aspiradora.cambiarModo("RAPIDO");
+    	
     	aspiradora.mover("ABAJO");
     	aspiradora.mover("IZQUIERDA");
     	aspiradora.mover("ARRIBA");
