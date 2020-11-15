@@ -128,7 +128,11 @@ public class Aspiradora {
 	}
 
 	public void limpiarZona() {
-
+		if (this.cepilloDerecho.estaSucio || this.cepilloIzquierdo.estaSucio()) {
+			this.apagar();
+			
+		}
+		else {
 		// Limpio zona con cada cepillo
 		this.cepilloDerecho.limpiarZona(this.zona);
 		
@@ -137,7 +141,7 @@ public class Aspiradora {
 		/*
 		 * if(zona.estaLimpia()) { System.out.print("Se limpio zona\n"); }
 		 */
-
+		}
 	}
 
 	public void cambiarModoVelocidad(String modoVelocidad) {
