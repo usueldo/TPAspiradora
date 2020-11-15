@@ -129,9 +129,10 @@ public class Aspiradora {
 
 	public void limpiarZona() {
 		if (this.cepilloDerecho.estaSucio || this.cepilloIzquierdo.estaSucio()) {
+			System.out.print("El cepillo esta sucio hay que limpiarlo\n"); 
+	    
 			this.apagar();
-			
-		}
+			}
 		else {
 		// Limpio zona con cada cepillo
 		this.cepilloDerecho.limpiarZona(this.zona);

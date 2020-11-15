@@ -1,11 +1,12 @@
 public class Cepillo {
-	boolean estaSucio = false;
+	boolean estaSucio=false;
 	int cantidadDeBarridos=0;
 	
 	
 	public boolean estaSucio() {
 		boolean estado=false;
-		if (cantidadDeBarridos==10){
+		if (cantidadDeBarridos==20){
+			
 			estado=true;
 		}
 		return estado;
@@ -20,7 +21,7 @@ public class Cepillo {
 			
 		} else {
 			zona.limpiar();
-			this.cantidadDeBarridos=+1;//Limpia zona y aumenta el cepillo en cantidad de barrido
+			this.cantidadDeBarridos+=1;//Limpia zona y aumenta el cepillo en cantidad de barrido
 		}
 	}
 	
