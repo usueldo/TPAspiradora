@@ -7,7 +7,7 @@ public class pruebaAspiradora {
     { 
     	//CASO 1: Muevo aspiradora sobre ambiente limpio
     	//Cuando la aspiradora se mueve, cambia de zona
-    	//casoMoverAspiradora();
+    	casoMoverAspiradora();
     	
     	//CASO 2: muevo aspiradora sobre zona con obstaculo en la fila 0 y columna 1
     	//La aspiradora intentara moverse hacia arriba y luego hacia abajo
@@ -59,6 +59,7 @@ public class pruebaAspiradora {
     	aspiradora.encender();
     	//Muevo aspiradora hacia la derecha
     	aspiradora.mover("DERECHA");
+    	aspiradora.cambiarModo("RAPIDO");
     	aspiradora.mover("ABAJO");
     	aspiradora.mover("IZQUIERDA");
     	aspiradora.mover("ARRIBA");

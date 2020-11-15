@@ -11,6 +11,10 @@ public class Aspiradora {
 		this.cepilloIzquierdo = cepilloIzquierdo;
 		this.cepilloDerecho = cepilloDerecho;
 	}
+	
+	public void cambiarModo(String nuevoModo) {
+		this.modoVelocidad=nuevoModo;
+	}
 
 	public void mover(String direccion) {
 		Zona zonaActual = this.zona;
