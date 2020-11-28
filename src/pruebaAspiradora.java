@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 public class pruebaAspiradora {
 
@@ -31,7 +34,9 @@ public class pruebaAspiradora {
     	
     	//CASO 8: Cepillos se ensucian,  se apaga aspiradora y se limpian manualmente
     	//La aspiradora se apaga, se limpian cepillos y se vuelve a encender
-    	casoAspiradoraSeLimpiaCepilloManual();
+    	//casoAspiradoraSeLimpiaCepilloManual();
+  
+
     }
     
     private static void casoMoverAspiradora() {

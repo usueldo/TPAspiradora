@@ -1,3 +1,6 @@
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 public class Aspiradora {
 	Zona zona;
 	Cepillo cepilloIzquierdo;
@@ -14,59 +17,45 @@ public class Aspiradora {
 
 	public void mover(String direccion) {
 		Zona zonaActual = this.zona;
-		int fila = zonaActual.getFila();
-		int columna = zonaActual.getColumna();
 		Zona zonaNueva;
+		Map <String,Integer> ubicacion = new HashMap<String,Integer>();
 
+		//Se carga obtiene ubicacion actual de la aspiradora
+		ubicacion = this.obtenerUbicacionActual();
+		
 		// Se comprueba si esta encendida
 		if (this.encendido) {
-
-			switch (direccion) {
-			case "ARRIBA":
-				fila -= 1;
-				break;
-			case "ABAJO":
-				fila += 1;
-				break;
-			case "DERECHA":
-				columna += 1;
-				break;
-			case "IZQUIERDA":
-				columna -= 1;
-				break;
-			default:
-				// Declaraciones
-			}
+			
+			//Se cambia la ubicacion dependiendo de la direccion
+			ubicacion = this.obtenerNuevaUbicacion(direccion);
 
 			// Obtengo nueva zona, si, la zona que devuelve es la misma,
 			// quiere decir que la aspiradora no se pudo mover
-			zonaNueva = this.obtenerNuevaZona(fila, columna);
+			zonaNueva = this.obtenerNuevaZona(ubicacion);
 
 			// Compruebo si la aspiradora se movio de zona
 			if (zonaNueva == zonaActual) {
 
 				// Se reinicia ubicacion
-				fila = zonaActual.getFila();
-				columna = zonaActual.getColumna();
+				ubicacion = this.obtenerUbicacionActual();
 
 				// Mover hacia arriba
-				fila -= 1;
+				ubicacion = this.obtenerNuevaUbicacion("ARRIBA");
 
 				// Obtengo nueva zona
-				zonaNueva = this.obtenerNuevaZona(fila, columna);
+				zonaNueva = this.obtenerNuevaZona(ubicacion);
 				// Compruebo si la aspiradora se movio de zona
 				if (zonaNueva == zonaActual) {
 					// La aspiradora no se movio de zona
 
 					// Se reinicia ubicacion
-					fila = zonaActual.getFila();
-					columna = zonaActual.getColumna();
+					ubicacion = this.obtenerUbicacionActual();
 
 					// Mover hacia abajo
-					fila += 1;
+					ubicacion = this.obtenerNuevaUbicacion("ABAJO");
 
 					// Obtengo nueva zona
-					zonaNueva = this.obtenerNuevaZona(fila, columna);
+					zonaNueva = this.obtenerNuevaZona(ubicacion);
 				}
 			}
 
@@ -82,8 +71,8 @@ public class Aspiradora {
 
 				// Se asigna nueva zona a la aspiradora
 				this.setZona(zonaNueva);
-				System.out.print("Se movio aspiradora columna " + columna + " y fila "
-						+ fila + "\n");
+				System.out.print("Se movio aspiradora columna " + ubicacion.get("COLUMNA") + " y fila "
+						+ ubicacion.get("FILA") + "\n");
 
 				// Se limpia la zona
 				this.limpiarZona();
@@ -99,13 +88,15 @@ public class Aspiradora {
 		}
 	}
 
-	private Zona obtenerNuevaZona(int fila, int columna) {
+	private Zona obtenerNuevaZona(Map <String,Integer> ubicacion) {
 		Ambiente ambiente = zona.getAmbiente();
 		int limiteFila = ambiente.getAncho();
 		int limiteColumna = ambiente.getAlto();
 		Zona nuevaZona = this.zona;
 		Zona zonaTemporal;
-
+		int fila = ubicacion.get("FILA");
+		int columna = ubicacion.get("COLUMNA");
+		
 		// Si la ubicacion no es inicial, se modifican limites
 		if (limiteFila != 0) {
 			limiteFila = limiteFila - 1;
@@ -128,7 +119,48 @@ public class Aspiradora {
 
 		return nuevaZona;
 	}
+	
+	private Map <String,Integer> obtenerUbicacionActual() {
+		Zona zonaActual = this.zona;
+		int fila = zonaActual.getFila();
+		int columna = zonaActual.getColumna();
+		Map <String,Integer> ubicacion = new HashMap<String,Integer>();
+		
+		ubicacion.put("FILA", fila);
+		ubicacion.put("COLUMNA", columna);
+		
+		return ubicacion;
+	}
+	
+	private Map <String,Integer> obtenerNuevaUbicacion(String direccion) {
+		Zona zonaActual = this.zona;
+		int fila = zonaActual.getFila();
+		int columna = zonaActual.getColumna();
+		Map <String,Integer> ubicacion = new HashMap<String,Integer>();
 
+		switch (direccion) {
+		case "ARRIBA":
+			fila -= 1;
+			break;
+		case "ABAJO":
+			fila += 1;
+			break;
+		case "DERECHA":
+			columna += 1;
+			break;
+		case "IZQUIERDA":
+			columna -= 1;
+			break;
+		default:
+			// Declaraciones
+		}
+		
+		ubicacion.put("FILA", fila);
+		ubicacion.put("COLUMNA", columna);
+		
+		return ubicacion;
+	}
+	
 	public void setZona(Zona zona) {
 		this.zona = zona;
 	}
